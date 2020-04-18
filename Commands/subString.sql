@@ -1,0 +1,1 @@
+SELECT SUBSTRING(title, 1, 13) AS 'Short Title' FROM books;
