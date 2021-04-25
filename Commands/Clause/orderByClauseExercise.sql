@@ -1,3 +1,5 @@
+-- Data k specific record er vittite sort korar jonno Order By Clause use kora hoi
+
 -- SELECT
 -- 	*,
 -- 	unit_price * quantity AS total_price
