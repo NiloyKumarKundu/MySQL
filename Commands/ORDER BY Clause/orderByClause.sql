@@ -8,6 +8,10 @@
 -- ORDER BY state DESC, first_name DESC;
 
 
-SELECT first_name, last_name
+-- SELECT first_name, last_name
+-- FROM customers
+-- ORDER BY birth_date;
+
+SELECT birth_date, first_name, last_name, 10 AS points
 FROM customers
-ORDER BY birth_date;
+ORDER BY first_name;
