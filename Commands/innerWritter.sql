@@ -1,13 +1,9 @@
--- SELECT *
--- FROM customers
--- ORDER BY customer_id DESC;
--- ORDER BY first_name;
--- ORDER BY first_name DESC;
--- ORDER BY state, first_name;
--- ORDER BY state DESC, first_name;
--- ORDER BY state DESC, first_name DESC;
+USE sql_hr;
 
-
-SELECT first_name, last_name
-FROM customers
-ORDER BY birth_date;
+SELECT 
+	e.employee_id,
+    e.first_name,
+    m.first_name
+FROM employees e
+JOIN employees m
+	ON e.reports_to = m.employee_id;
