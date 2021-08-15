@@ -161,3 +161,13 @@ SELECT employee_id,
        MONTH(hire_date) AS "month"
 FROM employees
 ORDER BY hire_date DESC;
+
+
+SELECT *
+FROM job_history
+ORDER BY start_date ASC, end_date DESC;
+
+
+SELECT *
+FROM jobs
+ORDER BY (max_salary - min_salary) DESC;

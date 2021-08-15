@@ -42,3 +42,64 @@ FROM table1 AS t1           #left table
      RIGHT JOIN 
      table2 AS t2           #right table
      ON condition (jora laganor condition)
+
+
+
+-- Show all the country name and coresponding region name from region table
+
+SELECT    r.region_name, 
+          c.country_name
+FROM      regions AS r
+
+          JOIN
+          countries AS c
+          ON r.region_id = c.region_id;
+
+
+
+
+SELECT r.region_name, c.country_name, l.city
+FROM regions AS r
+JOIN
+countries AS c
+ON r.region_id = c.region_id
+JOIN
+locations AS l
+ON l.country_id = c.country_id;
+
+
+
+SELECT    r.region_name,
+          c.country_name,
+          l.city,
+          d.department_name
+FROM      regions AS r
+
+          JOIN
+          countries AS c
+          ON r.region_id = c.region_id
+
+          JOIN
+          locations AS l
+          ON l.country_id = c.country_id
+
+          JOIN
+          departments AS d
+          ON d.location_id = l.location_id;
+
+
+
+-- Show the employee id, salary and his colleagues id, salary who receives heigher salary than him
+
+SELECT    myself.employee_id,
+          myself.salary,
+
+          colleague.employee_id,
+          colleague.salary
+          
+FROM      employees AS myself
+
+          JOIN
+          employees AS colleague
+          ON myself.salary < colleague.salary;
+
