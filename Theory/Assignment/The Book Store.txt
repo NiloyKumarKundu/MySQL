@@ -1,0 +1,35 @@
+Consider the following scenario:
+
+▪ Every book has a title, isbn, year and price.
+
+##########
+The store also keeps the author and publisher for any book.
+
+▪ For authors, the database keeps the name, address and the url of their homepage.
+
+▪ For publishers, the database keeps the name, address, phone number and the url of their website.
+
+▪ The store has several warehouses, each of which has a code, address and phone number.
+
+The warehouse stocks several books. A book may be stocked at multiple warehouses. (In previous sentence,
+we are not referring to a particular copy of the book. Consider for example “the complete book” for our
+course. This book may be stocked at multiple warehouses.)
+
+--------------------------
+The database records the number of copies of a book stocked at various warehouses.
+
+warehouse               book 
+a                       1
+b                       1
+c                       1
+
+
+▪ The bookstore keeps the name, address, email-id, and phone number of its customers.
+
+▪ A customer owns several shopping basket. A shopping basket is identified by a basketID and contains
+several books. Some shopping baskets may contain more than one copy of same book.
+
+--------------------------
+The database records the number of copies of each book in any shopping basket.
+
+Design and ER Diagram for the scenario that satisfies all the given requirements.

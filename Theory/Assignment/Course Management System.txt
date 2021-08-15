@@ -1,0 +1,28 @@
+Consider the following scenario for Course Management System:
+
+▪ The university stores all the student information that includes a unique student id, name, date of birth,
+address. Address is stored in the following three sections: street name, postal code and city.
+
+▪ Each course is identified by its unique course code, trimester, course name and course content.
+
+One course is conducted by several faculties and a student can choose several courses in a single trimester.
+
+course              faculty
+1                   ?? many
+?? many                1
+
+course              student
+1                   ?? many
+?? many             1
+
+▪ The university identifies each faculty through their unique employee id. Each faculty also has a particular
+room no, name, contact no, email and join date. 
+
+Each faculty is associated with anonymous reviews of students. 
+
+Each review consists of a review id, review details and datetime. 
+
+The review id can’t identify a particular review among all the reviews but the review id for a specific faculty can identify a particular review. 
+
+Each student is also assigned to a specific faculty for advising purpose.
+Design an ER Diagram for the scenario that satisfies all the given requirements.

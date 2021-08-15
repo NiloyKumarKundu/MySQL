@@ -1,0 +1,24 @@
+Consider the following scenario for a Job portal:
+
+▪ The job portal manages each user’s profile where each user is represented by his or her name, unique
+email, address, date of birth, educational qualifications, job position and job experience.
+Both recruiters and job seekers are user and one recruiter can recruit more than one job seeker.
+
+▪ The recruiters can post job openings to the job portal. 
+
+The job portal keeps track of each posts date, time, contents, no of viewers. The system also keeps track of which job seeker is interested in which job posts.
+
+job seekers                         job_posts
+
+*********Confusion part**********
+
+
+▪ Each of the offices is maintained by their unique office id, name, address and contact no.
+Every user belongs to some offices as a recruiter or, an employee or, a follower.
+
+Each person can provide his or her anonymous review of offices.
+
+
+Each of the review contains review id, date, time, review details. The review id cannot uniquely identify a particular review but a review id together with an office id can uniquely identify a particular review.
+
+Design and ER Diagram for the scenario that satisfies all the given requirements.

@@ -1,0 +1,59 @@
+ON DELETE RESTRICT -> 
+
+User
+id          name
+1           abc
+2           def         (delete)    -> you can't delete this item, you have to delete your copy.
+3           efg
+
+
+
+oder
+o_id        amount      user_id (foreign_key)
+1           500$            1
+2           400$            2       
+3           600#            1
+
+
+ON DELETE set null -> 
+
+User
+id          name
+1           abc
+2           def         (delete)
+3           efg
+
+
+
+oder
+o_id        amount      user_id (foreign_key)
+1           500$            1
+2           400$            NULL       
+3           600#            1
+
+
+
+
+
+ON DELETE Cascade -> 
+
+User
+id          name
+1           abc
+2           def         (delete)    // Baki sob copy ja ja ache sob delete kore dibe
+3           efg
+
+
+
+oder
+o_id        amount      user_id (foreign_key)
+1           500$            1
+2           400$            2   -   X       
+3           600#            1
+4           880$            2   -   X
+
+
+
+
+
+ON Update RESTRICT -> same idea just update hobe.

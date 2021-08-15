@@ -1,0 +1,7 @@
+Consider a paediatrician clinic (for only kids below the age of 15) that will store information regarding
+various patients, doctors and their rooms. Patients have a unique id, name, age and date of birth.
+Doctors have specific identifiers, name, Nid numbers and joining date. Each patient can be treated by
+one doctor only. Doctors have their rooms in the clinic. However, each room may be shared by a
+number of doctors. Rooms are in a specific wing of a particular floor and have unique room numbers.
+Although the clinic has only 1 floor right now, the construction of other floors will be completed soon
+and therefore, floor information is considered necessary.

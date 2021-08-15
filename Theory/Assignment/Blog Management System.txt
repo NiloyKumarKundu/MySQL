@@ -1,0 +1,35 @@
+Consider the following scenario:
+
+▪ The blog management system maintains each blog writer’s unique email, name, encoded password,
+gender, date of birth, join date, length of employment and address.
+
+The address field consists of three components: postal code, city and street name.
+
+Every blog writer is hired by only one blog writer as his employer.
+The visitors may follow more than one blog writer.
+
+
+▪ Each of the blogs has blog id, details, date, time and category.
+One blog may fall under several categories.
+Here blog id cannot uniquely identify a specific blog but blog id together with blog writer
+email can uniquely identify a specific blog. 
+A blog writer may publish several blogs.
+
+#########
+▪ The visitors can see all the blogs published by writers. 
+Each visitor can comment more than one time in each blog and the system maintains the date, time, content of that blog comment.
+
+visitor             comment 
+1                   x
+1                   y 
+3                   
+
+
+Visitors can also hit reactions (like/dislike) in more than one blogs. The system maintains unique visitor email, visitor name and encrypted password for each visitor.
+
+
+Design and ER Diagram for the scenario that satisfies all the given requirements.
+
+
+
+sudhu dekhte parle relation hobe na. like/ comment / track korte bolle relation hobe.
