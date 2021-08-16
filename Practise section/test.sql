@@ -171,3 +171,150 @@ ORDER BY start_date ASC, end_date DESC;
 SELECT *
 FROM jobs
 ORDER BY (max_salary - min_salary) DESC;
+
+
+
+-- DISTINCT clause
+SELECT  DISTINCT manager_id
+FROM    employees;
+
+
+SELECT  DISTINCT job_id
+FROM    employees;
+
+
+SELECT  DISTINCT country_id
+FROM    locations;
+
+
+SELECT  DISTINCT job_id, department_id
+FROM    employees;
+
+
+
+-- Aggregate Operations (GROUP BY, HAVING clauses)
+
+SELECT  COUNT(employee_id) AS 'total no of employees',
+        SUM(salary) AS 'total salary',
+        AVG(salary) AS 'average salary',
+        MAX(salary) AS 'maximum salary'
+
+FROM    employees;
+
+
+SELECT  MAX(hire_date), MIN(hire_date)
+FROM    employees;
+
+SELECT  MAX(hire_date)
+FROM    employees
+WHERE   department_id = 50;
+
+
+SELECT  COUNT(department_id)
+FROM    departments
+WHERE   location_id = 1700;
+
+
+SELECT      end_date
+FROM        job_history
+WHERE       department_id = 80
+ORDER BY    end_date DESC
+LIMIT       0, 1;
+
+
+SELECT  MAX(min_salary), MIN(min_salary), MAX(max_salary), MIN(max_salary)
+FROM    jobs;
+
+
+SELECT  COUNT(employee_id)
+FROM    employees
+WHERE   manager_id = 114;
+
+
+SELECT  COUNT(DISTINCT job_id)
+FROM    employees;
+
+
+SELECT  COUNT(DISTINCT country_id)
+FROM    locations;
+
+
+SELECT  COUNT(DISTINCT location_id)
+FROM    locations
+WHERE   country_id = "US";
+
+
+
+
+-- CT - 2 (Even) 
+
+CREATE DATABASE IF NOT EXISTS medical_appointment_system;
+USE medical_appointment_system;
+
+CREATE TABLE IF NOT EXISTS Doctor (
+    license_no VARCHAR(40),
+    name VARCHAR(40), 
+    email VARCHAR(40),
+    contact_no VARCHAR(40),
+    type    VARCHAR(40),
+    Fee     DOUBLE
+
+    CONSTRAINT PK PRIMARY KEY(license_no);
+)
+
+
+
+
+SELECT  YEAR(a.start_time),  SUM(d.fee)
+FROM    appointment AS a
+        JOIN 
+        doctor AS d
+        ON a.doctor_id = d.lisence_no
+
+GROUP BY YEAR(a.start_time), a.patient_id
+ORDER BY AVG(d.fee) DESC;
+
+
+
+-- Exam
+
+SELECT  description
+FROM    question
+WHERE   category LIKE "cse" OR "eee" 
+GROUP BY diff_level, description
+HAVING diff_level >= 2; 
+
+
+SELECT  COUNT(id) AS "total no of exams"
+FROM    exam
+WHERE exam_taker NOT LIKE "UIU";
+
+
+
+SELECT  myself.id, 
+        COUNT(other.id) AS "total no of other exams"
+FROM    exam myself
+        JOIN
+        exam other
+        ON myself.id = other.id
+WHERE   other.exam_date_time < myself.exam_date_time
+GROUP BY myself.exam_taker, other.exam_taker, myself.id, other.id
+HAVING  myself.exam_taker = other.exam_taker;
+
+
+
+SELECT  COUNT(ques.id)
+FROM    question AS q
+        JOIN 
+        ques_exam AS qe
+        on q.id = qe.ques_id
+
+        JOIN
+        exam AS e
+        ON qe.exam_id = e.id
+
+WHERE YEAR(e.exam_date_time) = 2020
+GROUP BY e.id, q.id
+ORDER BY COUNT(q.id) DESC
+LIMIT 0, 3;
+
