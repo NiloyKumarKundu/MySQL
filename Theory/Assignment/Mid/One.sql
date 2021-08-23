@@ -204,6 +204,40 @@ FROM    (
         ) AS cTable
 
 
+SELECT  StudentID, count_st
+FROM    (
+            SELECT  StudentID,  COUNT(StudentID) AS count_st
+            FROM    Solve
+            GROUP BY StudentID
+        ) AS cTable
+
+
+/* ----------------------- */
+SELECT  *
+FROM    Solve
+GROUP BY StudentID
+HAVING COUNT(StudentID) = ANY (
+    	SELECT COUNT(StudentID) AS count_st
+            FROM    Solve
+            GROUP BY StudentID
+    )   AND COUNT(StudentID) = MAX(StudentID)
+
+
+
+
+SELECT  StudentID
+FROM    Solve
+GROUP BY StudentID
+WHERE   COUNT(StudentID) = (    
+        SELECT  COUNT(StudentID)
+        FROM    Solve
+        GROUP BY StudentID
+        HAVING COUNT(StudentID) = ANY (
+                SELECT COUNT(StudentID) AS count_st
+                    FROM    Solve
+                    GROUP BY StudentID
+            )
+    ) AND MAX(StudentID) = COUNT(StudentID)
 
 
 
