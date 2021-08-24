@@ -46,7 +46,15 @@ INSERT INTO Solve VALUES('011204036', 'DBMS', '2020-08-22');
 INSERT INTO Solve VALUES('011204036', 'DBMS', '2019-08-22');
 INSERT INTO Solve VALUES('011204036', 'OOP', '2019-08-22');
 INSERT INTO Solve VALUES('011204036', 'OOP', '2012-07-04');
-INSERT INTO Solve VALUES('011204036', 'WEB PROG', '2021-07-22');
+INSERT INTO Solve VALUES('011204036', 'WEB PROG', '2021-07-27');
+INSERT INTO Solve VALUES('011204036', 'WEB PROG', '2021-07-28');
+INSERT INTO Solve VALUES('011204036', 'WEB PROG', '2021-07-29');
+INSERT INTO Solve VALUES('114', 'OOP', '2021-08-01');
+INSERT INTO Solve VALUES('114', 'DBMS', '2021-07-29');
+INSERT INTO Solve VALUES('114', 'DBMS', '2021-08-14');
+INSERT INTO Solve VALUES('112', 'OOP', '2021-07-24');
+INSERT INTO Solve VALUES('112', 'DBMS', '2021-07-26');
+
 
 /* 1(A) */
 
@@ -60,7 +68,7 @@ WHERE   UniversityName LIKE 'International';
 
 SELECT  *
 FROM    Solve
-WHERE   StudentID = '011204036' AND MONTH(SolveDate) = MONTH(CURRENT_DATE) - 1 AND YEAR(SolveDate) = YEAR(CURRENT_DATE);
+WHERE   SolveDate > DATE_SUB(now(), INTERVAL 1 MONTH) AND StudentID = '011204036';
 
 
 /* 
@@ -213,31 +221,32 @@ FROM    (
 
 
 /* ----------------------- */
-SELECT  *
-FROM    Solve
-GROUP BY StudentID
-HAVING COUNT(StudentID) = ANY (
-    	SELECT COUNT(StudentID) AS count_st
-            FROM    Solve
-            GROUP BY StudentID
-    )   AND COUNT(StudentID) = MAX(StudentID)
+SELECT      StudentID, COUNT(StudentID)
+FROM        Solve
+GROUP BY    StudentID
 
 
+SELECT  std_cnt
+FROM    (
+            SELECT      StudentID, COUNT(StudentID) AS std_cnt
+            FROM        Solve
+            GROUP BY    StudentID
+        ) AS dtable
 
 
-SELECT  StudentID
-FROM    Solve
-GROUP BY StudentID
-WHERE   COUNT(StudentID) = (    
-        SELECT  COUNT(StudentID)
-        FROM    Solve
-        GROUP BY StudentID
-        HAVING COUNT(StudentID) = ANY (
-                SELECT COUNT(StudentID) AS count_st
-                    FROM    Solve
-                    GROUP BY StudentID
+/* Solution */
+SELECT      StudentID
+FROM        Solve
+GROUP BY    StudentID
+HAVING      COUNT(StudentID) = ANY (
+                SELECT  MAX(std_cnt)
+                FROM    (
+                            SELECT      StudentID, COUNT(StudentID) AS std_cnt
+                            FROM        Solve
+                            GROUP BY    StudentID
+                        ) AS dtable
             )
-    ) AND MAX(StudentID) = COUNT(StudentID)
+
 
 
 
