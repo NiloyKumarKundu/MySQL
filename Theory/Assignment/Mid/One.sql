@@ -77,6 +77,17 @@ WHERE   SolveDate > DATE_SUB(now(), INTERVAL 1 MONTH) AND StudentID = '011204036
     365 days , each month = 30 days and y, m, d represent integers]
 */
 
+
+UPDATE Problem
+SET Category = 'Math'
+WHERE Category = 'CSE';
+
+
+UPDATE Problem
+SET Category = 'CSE'
+WHERE ProblemName = 'OOP'
+
+/* Solution */
 SELECT  StudentID,
         Name,
         CONCAT(
@@ -88,22 +99,17 @@ SELECT  StudentID,
             ' days'
         ) AS Age
 
-FROM Student;
+FROM    Student
+WHERE   Name LIKE '%b%c%'
 
 
-UPDATE Problem
-SET Category = 'Math'
-WHERE Category = 'CSE';
 
-
-UPDATE Problem
-SET Category = 'CSE'
-WHERE ProblemName = 'OOP'
 
 /* 1(B) */
 
 /* i. Show ID of students who have solved problems of 'Math' Category. */
 
+/* Solution */
 SELECT  StudentID
 FROM    Solve
 WHERE   ProblemName = ANY (
@@ -112,7 +118,7 @@ WHERE   ProblemName = ANY (
     WHERE Category = 'Math'
 )
 
-
+/* ii. Show name of the students of 'National' University who have solved more than 5 problems. */
 
 UPDATE  Student
 SET     UniversityName = 'National'
@@ -147,8 +153,8 @@ GROUP BY StudentID
 HAVING COUNT(*) > 5;
 
 
-/* ii. Show name of the students of 'National' University who have solved more than 5 problems. */
 
+/* Solution */
 SELECT  StudentID, Name
 FROM    Student
 WHERE   StudentID = ANY (
@@ -167,6 +173,8 @@ WHERE   StudentID = ANY (
 SELECT  ProblemName
 FROM    Problem
 WHERE   Category = 'Programming';
+
+
 
 SELECT  StudentID
 FROM    Solve

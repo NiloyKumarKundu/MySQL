@@ -173,12 +173,283 @@ WHERE   id = ANY (
     writer.
  */
 
+writer          post            editor
+----------------------------------------
+
+
+SELECT  w.id AS writer_id, w.rating, p.id AS post_id, e.id AS edit_id, w.rating
+FROM    Writer  AS w
+        JOIN
+        Post    AS p
+        ON w.id = p.writer_id
+        JOIN
+        Writer  AS e
+        ON p.editor_id = e.id
+
+WHERE   w.rating > e.rating;
+
+
+
+
+
+
  
 
+/* C */
+/*
+    i. Show name of the writer who made maximum number of posts in 'Horror' category.
+*/
+
+INSERT INTO Post VALUES('315', 'Tellivision', '108', '201', '2021-03-09', '205');
+INSERT INTO Post VALUES('316', 'News', '108', '205', '2021-05-19', '205');
+INSERT INTO Post VALUES('317', 'Movie', '108', '202', '2015-12-29', '205');
+INSERT INTO Post VALUES('318', 'Study', '108', '204', '2017-11-09', '205');
+INSERT INTO Post VALUES('319', 'status', '108', '203', '2017-09-09', '205');
+INSERT INTO Post VALUES('320', 'News', '108', '203', '2017-07-09', '205');
+INSERT INTO Post VALUES('321', 'Tellivision', '108', '205', '2017-08-25', '205');
+INSERT INTO Post VALUES('322', 'status', '108', '202', '2017-01-29', '205');
+INSERT INTO Post VALUES('323', 'Study', '108', '201', '2017-03-12', '205');
+
+
+SELECT  *
+FROM    Category
+WHERE   name = 'Horror'
+
+
+SELECT      category_id, writer_id, COUNT(*)
+FROM        Post
+WHERE       category_id = (
+                SELECT  id
+                FROM    Category
+                WHERE   name = 'Horror'
+            )
+GROUP BY    writer_id
+
+
+SELECT      d_count
+FROM        (
+                SELECT      COUNT(writer_id) AS d_count, writer_id
+                FROM        Post
+                WHERE       category_id = (
+                                SELECT  id
+                                FROM    Category
+                                WHERE   name = 'Horror'
+                            )
+                GROUP BY    writer_id
+            )   AS dtable
+
+
+SELECT      writer_id
+FROM        Post
+WHERE       category_id = (
+                SELECT  id
+                FROM    Category
+                WHERE   name = 'Horror'
+            )
+GROUP BY    writer_id
+HAVING      COUNT(writer_id) = ALL (    
+                SELECT      MAX(d_count)
+                FROM        (
+                                SELECT      COUNT(writer_id) AS d_count
+                                FROM        Post
+                                WHERE       category_id = (
+                                                SELECT  id
+                                                FROM    Category
+                                                WHERE   name = 'Horror'
+                                            )
+                                GROUP BY    writer_id
+                            )   AS dtable
+            )
+
+
+/* Solution */
+SELECT  name
+FROM    Writer
+WHERE   id = ANY (
+            SELECT      writer_id
+            FROM        Post
+            WHERE       category_id = (
+                            SELECT  id
+                            FROM    Category
+                            WHERE   name = 'Horror'
+                        )
+            GROUP BY    writer_id
+            HAVING      COUNT(writer_id) = ALL (    
+                            SELECT      MAX(d_count)
+                            FROM        (
+                                            SELECT      COUNT(writer_id) AS d_count
+                                            FROM        Post
+                                            WHERE       category_id = (
+                                                            SELECT  id
+                                                            FROM    Category
+                                                            WHERE   name = 'Horror'
+                                                        )
+                                            GROUP BY    writer_id
+                                        )   AS dtable
+                        )
+        )
 
 
 
 
+
+/*
+    ii. Show name of the editor who edited more posts than the average number of posts made by
+    writers from 'America'
+*/
+
+SELECT      id
+FROM        Writer
+WHERE       country = 'America'
+
+
+
+SELECT      AVG(*)
+FROM        Post
+WHERE       writer_id = ANY (
+                SELECT      id
+                FROM        Writer
+                WHERE       country = 'America' 
+            )
+GROUP BY    writer_id;
+
+
+
+
+SELECT  AVG(d_cnt)
+FROM    (
+            SELECT      COUNT(writer_id) AS d_cnt
+            FROM        Post
+            WHERE       writer_id = ANY (
+                            SELECT      id
+                            FROM        Writer
+                            WHERE       country = 'America' 
+                        )
+            GROUP BY    writer_id
+        ) AS dtable
+
+
+SELECT      *
+FROM        Post
+GROUP BY    writer_id
+HAVING      COUNT(*) > (
+                SELECT  AVG(d_cnt)
+                FROM    (
+                            SELECT      COUNT(writer_id) AS d_cnt
+                            FROM        Post
+                            WHERE       writer_id = ANY (
+                                            SELECT      id
+                                            FROM        Writer
+                                            WHERE       country = 'America' 
+                                        )
+                            GROUP BY    writer_id
+                        ) AS dtable
+            )
+
+
+
+
+/* Solution */
+SELECT  name, id
+FROM    Writer
+WHERE   country = 'America' AND id = ANY (
+            SELECT      writer_id
+            FROM        Post
+            GROUP BY    writer_id
+            HAVING      COUNT(*) > (
+                            SELECT  AVG(d_cnt)
+                            FROM    (
+                                        SELECT      COUNT(writer_id) AS d_cnt
+                                        FROM        Post
+                                        WHERE       writer_id = ANY (
+                                                        SELECT      id
+                                                        FROM        Writer
+                                                        WHERE       country = 'America' 
+                                                    )
+                                        GROUP BY    writer_id
+                                    ) AS dtable
+                        )
+        )
+
+
+
+
+
+/*  
+    i. For each category, show name of the category and name of the writer with maximum rating
+    among all writers who made a post in that category 
+*/
+
+category        writer      ratting
+
+
+SELECT 
+FROM    Category    AS c
+        JOIN
+        Post    AS p
+        ON  p.category_id = c.id
+        JOIN
+        Writer  AS w 
+        ON  p.writer_id = w.id
+
+
+
+
+SELECT dtable.cid AS cid1, dtable.rat AS rat1
+FROM    (
+            SELECT c.id AS cid, w.id AS wid, w.rating AS rat
+            FROM    Category    AS c
+                    JOIN
+                    Post    AS p
+                    ON  p.category_id = c.id
+                    JOIN
+                    Writer  AS w 
+                    ON  p.writer_id = w.id
+        )   AS dtable
+GROUP BY dtable.cid
+
+
+
+/* Solution */
+SELECT c.name AS cname, w.name AS wname
+            FROM    Category    AS c
+                    JOIN
+                    Post    AS p
+                    ON  p.category_id = c.id
+                    JOIN
+                    Writer  AS w 
+                    ON  p.writer_id = w.id
+WHERE (c.id, w.rating) = ANY (
+        SELECT dtable.cid AS cid1, dtable.rat AS rat1
+        FROM    (
+                    SELECT c.id AS cid, w.id AS wid, w.rating AS rat
+                    FROM    Category    AS c
+                            JOIN
+                            Post    AS p
+                            ON  p.category_id = c.id
+                            JOIN
+                            Writer  AS w 
+                            ON  p.writer_id = w.id
+                )   AS dtable
+        GROUP BY dtable.cid
+    )
+
+
+
+
+
+
+/*
+    ii. Show name of the editor(s) who edited a post made by the Fourth highest rated writer.
+*/
+
+SELECT  name
+FROM    Writer  AS w1
+WHERE   3 = (
+            SELECT  COUNT(DISTINCT rating)
+            FROM writer w2
+            WHERE w2.rating > w1.rating
+        )
 
 
 
