@@ -1,0 +1,169 @@
+B+ Tree:
+---------
+
+B = Balanced Tree
+
+left subtree and right subtree height difference maximum 1.
+
+--------------------------------------------
+
+Perfect Balanced Tree - all child are at the same height.
+
+B+ Tree Data Structure:
+------------------------
+Usage: Database data store -> HD data indexing
+
+Order/Degree/Maximum Number of Pointers:
+----------------------------------------
+Order /Degree/ maxm no of pointers = 5 = n
+No of keys = Degree-1 = 4
+
+B+ proof:
+---------
+Always,
+Root Node,  
+    minm pointer=2, minm key = 1
+    maxm pointer=n, maxm key = n-1
+            
+Non-leaf Node,
+    minm pointer=ceil(n/2), minm key=ceil(n/2)-1 
+    maxm pointer=n,         maxm key = n-1
+    
+Leaf Node,
+    minm pointer=ceil( (n-1)/2 )+1, minm key=ceil( (n-1)/2 )
+    maxm pointer=n,                 maxm key=n-1
+
+-----------------------------------------------------
+
+4 major operation:
+- insertion
+- update
+- delete
+- search
+
+For limited time, we will only cover insertion.
+
+-----------------------------------------------------
+
+Insertion:
+----------
+
+2 kinds of operation:
+----------------------
+overflow control mechanism:
+
+copy up - only leaf:
+
+    n=4
+
+    insert = 40
+
+    sample leaf node:
+
+      parent
+        |
+        V
+    |10|30|50| - x
+        
+        insert: 40 - overflow
+        
+        10,30,            40,50
+        
+        mid point: always consider the right mid element.
+        
+        mid point = 40
+                
+              parent, 40 insert
+             /      \
+            
+    |10|30| |        |40|50| |
+
+
+push up - nonleaf, root:
+
+    n=4
+        parent
+          |
+          V
+    ||12||100||320||
+
+
+    insert: 40
+
+    overflow
+    
+    12,40,   100,    320
+    
+    mid point: 100
+    
+            parent, 100 insert
+            /       \
+    
+    ||12||40|| ||    ||320|| || ||
+
+--------------------------------------------------
+
+Simulation:
+-----------
+11, 61, 101, 5, 40, 25, 80, 30, 92, 130, 165, 35, 50, 56
+
+As number of child = 4
+So degree = 4, no of key=3
+
+inserting 11,61,101:
+
+        ||11||61||101||     - root node, leaf node, copy up
+        
+
+inserting 5,40:
+    
+    overflow:
+                5,11,   61,101
+                
+    mid point:  61
+    
+                ||61|| ||  ||
+                /    \
+        |5|11|40|    |61|101| |
+        
+
+inserting 25,80,30:
+
+    overflow: 
+    
+    5,11,   25,40
+    
+    mid point: 25
+                    
+                    
+                        ||25 ||   61  ||    ||
+                        /    |         \
+                |5|11| |  |25|30|40|    |61|80|101|
+                
+                
+inserting 92, 130:
+    overflow:  61,80,    92,101
+    mid point: 92
+            
+            ||25||       61   ||     92 ||
+            /    |             |         \
+    |5|11| |  |25|30|40|    |61|80| |   |92|101|130|
+
+inserting 165:
+
+    overflow: 92,101,left   130(right,up),165 right
+    mid point: 130
+                        ||25||61||92||, insert 130 overflow
+    
+    |5|11| |  |25|30|40|    |61|80| |   |92|101| |    |130|165| |
+    
+    
+    
+    parent overflow:
+    25,61,left    92(up),   130(right)
+                            
+                            ||92|| || ||
+
+                ||25||61|| ||        ||130|| || ||
+    
+    |5|11| |  |25|30|40|    |61|80| |   |92|101| |    |130|165| |
