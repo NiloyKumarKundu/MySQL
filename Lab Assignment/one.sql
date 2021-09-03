@@ -58,18 +58,18 @@ HAVING COUNT(department_id) =  (
 SELECT  department_name
 FROM    departments
 WHERE   department_id = (
-                            SELECT  department_id
-                            FROM    employees
-                            GROUP BY department_id
-                            HAVING COUNT(department_id) =  (
-                                                                SELECT  MAX(dcnt)
-                                                                FROM    (
-                                                                            SELECT COUNT(department_id) AS dcnt
-                                                                            FROM    employees
-                                                                            GROUP BY department_id
-                                                                        )   AS dtable
-                                                            )              
-                        )
+            SELECT  department_id
+            FROM    employees
+            GROUP BY department_id
+            HAVING COUNT(department_id) =  (
+                    SELECT  MAX(dcnt)
+                    FROM    (
+                                SELECT COUNT(department_id) AS dcnt
+                                FROM    employees
+                                GROUP BY department_id
+                    )   AS dtable
+                )              
+        )
 
 
 
@@ -106,7 +106,7 @@ FROM    (
 /* 
     Find those departments whose average salary is greater than the minimum salary of all
     other departments. Print department names.
- */
+*/
 
 SELECT      AVG(salary)
 FROM        employees
@@ -117,8 +117,22 @@ GROUP BY    department_id
 SELECT      department_id
 FROM        employees
 GROUP BY    department_id
-HAVING      AVG(salary) > (
+HAVING      AVG(salary) > ALL (
         SELECT      MIN(salary)
         FROM        employees
+        GROUP BY    department_id
     )
 
+
+SELECT  department_name AS "department name"
+FROM    departments
+WHERE   department_id = (
+            SELECT      department_id
+            FROM        employees
+            GROUP BY    department_id
+            HAVING      AVG(salary) > ALL (
+                    SELECT      MIN(salary)
+                    FROM        employees
+                    GROUP BY    department_id
+                )
+        )
