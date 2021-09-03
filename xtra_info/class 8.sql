@@ -44,10 +44,10 @@ ORDER BY employee_id ASC
 -- employees table er theke job_history table er data match jader sathe hobe tara bad e bakira print hbe
 SELECT employee_id, job_id
 FROM employees
-EXCEPT (
-        SELECT employee_id, job_id
-        FROM job_history
-    )  
+EXCEPT  (
+            SELECT employee_id, job_id
+            FROM job_history
+        )  
 ORDER BY employee_id ASC
 
 
